@@ -97,6 +97,7 @@ publishing {
                 artifactId = archivesBaseName
                 url = "https://github.com/devives/JavaRstDocument4Sphinx"
                 description = "ReStructuredText Document & Builder for Sphinx"
+                name = "Devive RST Document for Sphinx"
 
                 properties = [
                         "project.build.sourceEncoding": "UTF-8"
@@ -141,6 +142,15 @@ publishing {
 
 signing {
     sign publishing.publications.RstDoc4Sphinx
+}
+
+tasks.register("zip-for-central-sonatype", Zip) {
+    group("publishing")
+    dependsOn("publish")
+    setArchiveFileName( "$archivesBaseName-$version"+".zip")
+    from(layout.buildDirectory.dir("repo")){
+        exclude("**/maven-metadata.xml*")
+    }
 }
 
 test {
